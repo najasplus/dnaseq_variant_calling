@@ -1,0 +1,5 @@
+{
+	"samples" : ["wt", "mut"],
+	"bam_prefix": "_dedup_reads.bam"
+
+}
