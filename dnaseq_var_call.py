@@ -13,12 +13,13 @@ ref = ref_directory + "Danio_rerio.GRCz11.dna.primary_assembly.fa"
 ref_dict = ref_directory + "Danio_rerio.GRCz11.dna.primary_assembly.dict"
 snp_db = ref_directory + "danio_rerio.vcf.gz"
 chr_big = ref_directory + "chr_big.list"
-#chr_big = "chr_big.list"
+chr_big = "chr_big.list"
 
 os.system("cp {}chr_small.list chr_small.list".format(ref_directory))
-chr_small = "chr_small.list"
+#chr_small = "chr_small.list"
 
 #input files
+
 
 def check_config(data):
     if "samples" not in data:
@@ -52,6 +53,18 @@ def dispatch_chromosomes(chromosomes, sample, target_function, parameter1=None, 
     
     for x in threads:
         x.join()
+
+def bsqr(sample, io_rg_postfix, io_bsqr):
+    input_bam = sample + io_rg_postfix
+    output_table = sample + ".recal.table"
+    output_bam = sample + io_bsqr
+    command = "java -jar -Xmx32g {} BaseRecalibrator -I {} -R {} --known-sites {} -O {}".format(cmd_GATK4, input_bam, ref, snp_db, output_table)
+    print(command)
+    os.system(command)
+    command2 = "java -jar -Xmx32g {} ApplyBQSR -R {} -I {} --bqsr-recal-file {} -O {}".format(cmd_GATK4, ref, input_bam, output_table, output_bam)
+    print(command2)
+    os.system(command2)
+
 
 
 def call_variants(sample, chromosome, io_bsqr, io_gvcf):
@@ -133,13 +146,19 @@ chromosomes.append(chr_small)
 
 os.system("mkdir gvcf")
 
+# Base recalibration
+
+io_bsqr = ".recal.bam"
+
+dispatch_samples(samples, bsqr, input_bam_prefix, io_bsqr)
+
 
 # HaplotypeCaller
 
 io_gvcf = ".g.vcf.gz"
 
 for sample in samples:
-    dispatch_chromosomes(chromosomes, sample, call_variants, input_bam_prefix, io_gvcf)
+    dispatch_chromosomes(chromosomes, sample, call_variants, io_bsqr, io_gvcf)
 
 #Variant calls and variant processing
 
