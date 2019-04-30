@@ -1,5 +1,5 @@
-## dnaseq_variant_calling
-# Variant calling pipeline from whole genome or exome resequencing using GATK 3.8 and 4.
+# dnaseq_variant_calling
+## Variant calling pipeline from whole genome or exome resequencing using GATK 3.8 and 4.
 
 
 Variant calling pipeline using GATK 3.8 and 4 and picard from bwa aligned and deduplicated bam files based on GATK Best-Practices pipeline https://software.broadinstitute.org/gatk/best-practices/workflow?id=11145
@@ -12,7 +12,7 @@ The script uses zebrafish GRCz11 genome as a reference, this can be modified acc
 
 The script parallelizes the file processing per sample or per chromosomes, therefore chromosome names list should be provided in the path of reference genome.
 
-# Input
+## Input
 
 input_parameters description as .json file. Should include "samples" as a list and "bam_prefix". Example:
 
@@ -31,7 +31,7 @@ mut_dedup.bam
 sib_dedup.bam
 ```
 
-# Running the script
+## Running the script
 
 In the directory where the input bams (or links to them) are located:
 
