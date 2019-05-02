@@ -13,10 +13,10 @@ ref = ref_directory + "Danio_rerio.GRCz11.dna.primary_assembly.fa"
 ref_dict = ref_directory + "Danio_rerio.GRCz11.dna.primary_assembly.dict"
 snp_db = ref_directory + "danio_rerio.vcf.gz"
 chr_big = ref_directory + "chr_big.list"
-chr_big = "chr_big.list"
+#chr_big = "chr_big.list"
 
 os.system("cp {}chr_small.list chr_small.list".format(ref_directory))
-#chr_small = "chr_small.list"
+chr_small = "chr_small.list"
 
 #input files
 
